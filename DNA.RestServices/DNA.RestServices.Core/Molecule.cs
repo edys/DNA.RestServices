@@ -4,10 +4,27 @@ using System.Text;
 
 namespace DNA.RestServices.Core
 {
-    public class MoleculeType
+    public static class MoleculeType
     {
-        public const string ResourceMolecule = "ResourceMolecule";
+        public static string ResourceMolecule => nameof(ResourceMolecule);
+
+        public static string UIMolecule => nameof(UIMolecule);
+
+        public static string ValidateMolecule => nameof(ValidateMolecule);
     }
+
+    public static class UiMoleculeType
+    {
+        public static string TextMolecule => nameof(TextMolecule);
+        public static string ImageMolecule => nameof(ImageMolecule);
+        public static string InputMolecule => nameof(InputMolecule);
+    }
+
+    public static class ValidateMoleculeType
+    {
+        public static string RequiredMolecule => nameof(RequiredMolecule);
+    }
+
 
 
     public class Molecule
@@ -20,24 +37,44 @@ namespace DNA.RestServices.Core
         public string Type { get;  private set; }
     }
 
-    public class UIMolecule : Molecule
+    public class UiMolecule : Molecule
     {
+        public string UiType { get; private set; }
 
+        public UiMolecule(string type) : base(Core.MoleculeType.UIMolecule)
+        {
+            UiType = type;
+        }
     }
 
-    public class TextMolecule : UIMolecule
+    public class TextMolecule : UiMolecule
     {
+        public ResourceMolecule TextResource { get; set; }
 
+        public TextMolecule():base(Core.UiMoleculeType.TextMolecule)
+        {
+
+        }
     }
 
-    public class InputMolecule : UIMolecule
+    public class InputMolecule : UiMolecule
     {
+        public ResourceMolecule PlaceholderResource { get; set; }
 
+        public InputMolecule():base(Core.UiMoleculeType.InputMolecule)
+        {
+
+        }
     }
 
-    public class ImageMolecule : UIMolecule
+    public class ImageMolecule : UiMolecule
     {
+        public ResourceMolecule ImageResource { get; set; }
 
+        public ImageMolecule():base(Core.UiMoleculeType.ImageMolecule)
+        {
+
+        }
     }
 
     public class ResourceMolecule : Molecule
@@ -50,5 +87,22 @@ namespace DNA.RestServices.Core
         public string Key { get; set; }
         public long UTCTimestamp { get; set; } 
         public string Culture { get; set; }
+    }
+
+    public class ValidateMolecule : Molecule
+    {
+        public string ValidateType { get; private set; }
+
+        public ValidateMolecule(string type) : base(MoleculeType.ValidateMolecule)
+        {
+            ValidateType = type;
+        }
+    }
+
+    public class RequiredMolecule : ValidateMolecule
+    {
+        public RequiredMolecule() : base(ValidateMoleculeType.RequiredMolecule)
+        {
+        }
     }
 }
